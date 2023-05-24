@@ -1,0 +1,19 @@
+{% load static %}
+<!Doctype html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <link rel="shortcut icon" href="{% static 'logo512.png' %}" type="image/png">
+    <link rel="stylesheet" href="{% static 'style.css' %}">
+    <title>{% block title %}blogify{% endblock title %}</title>
+</head>
+
+<body>
+    <div class="container">
+        {% block content %}
+        {% endblock content %}
+    </div>
+</body>
+
+</html>
