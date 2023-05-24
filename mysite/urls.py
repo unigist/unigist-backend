@@ -19,10 +19,10 @@ from django.urls import path, include
 
 from siteapps.views import index
 
-baseUrl = 'api/vi'
+baseUrl = fr'api/v1'
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path(baseUrl, include('siteapps.urls')),
+    path('api/v1/', include('siteapps.urls')),
     path('', index, name='API Documentation'),
 ]
