@@ -1,0 +1,25 @@
+{% load static %}
+<!Doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="shortcut icon" href="{% static 'logo512.png' %}" type="image/png">
+    <link rel="stylesheet" href="{% static 'style.css' %}">
+    <title>Unigist API Docs</title>
+</head>
+
+<body>
+    <header>Header</header>
+    <div class="container">
+        <h1>Blog Backend API Documentation</h1>
+        {% block content %}
+        {% endblock content %}
+    </div>
+    <footer>
+        Footer
+    </footer>
+</body>
+
+</html>

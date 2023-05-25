@@ -1,0 +1,114 @@
+
+{% extends 'root.html' %}
+
+{% block content %}
+	<h2>User Endpoints</h2>
+
+	<p>The <code>https:/api/v1/</code> endpoint provides the following functionality related to user accounts:</p>
+
+	<h3>Register a User</h3>
+	<ul>
+		<li><strong>POST</strong> <span class="monofont">/api/v1/auth/register</span> - Register a new user</li>
+		<ul>
+			<li><strong>Request Body</strong></li>
+			<ul>
+				<li><code>username</code> (string, required) - The desired username for the new account</li>
+				<li><code>email</code> (string, required) - The email address for the new account</li>
+				<li><code>password</code> (string, required) - The desired password for the new account</li>
+			</ul>
+			<!-- <li><strong>Response</strong></li>
+			<ul>
+				<li><code>id</code> (integer) - The unique ID of the new user account</li>
+				<li><code>username</code> (string) - The username of the new user account</li>
+				<li><code>email</code> (string) - The email address of the new user account</li>
+			</ul> -->
+		</ul>
+	</ul>
+
+	<h3>Login a User</h3>
+	<ul>
+		<li><strong>POST</strong> <span class="monofont"> api/v1/auth/login/ </span>/ - Log in an existing user</li>
+		<ul>
+			<li><strong>Request Body</strong></li>
+			<ul>
+				<li><code>username</code> (string, required) - The email address of the user account to log in</li>
+<li><code>password</code> (string, required) - The password of the user account to log in</li>
+			</ul>
+			<li><strong>Response</strong></li>
+			<ul>
+				<li><code>token</code> (string) - Simple authentication token to use for future requests</li>
+			</ul>
+		</ul>
+	</ul>
+
+	<h3>Logout a User</h3>
+	<ul>
+		<li><strong>POST</strong><span class="monofont"> /api/v1/auth/logout/</span> - Log out the current user</li>
+		<ul>
+			<li><strong>Request Headers</strong></li>
+			<ul>
+				<li><code>Authorization</code> (string, required) - The authentication token obtained from logging in</li>
+			</ul>
+			<li><strong>Response</strong></li>
+			<ul>
+				<li><code>message</code> (string) - A message indicating that the user has been logged out</li>
+			</ul>
+		</ul>
+	</ul>
+
+	<h3>Retrieve User Account Information</h3>
+	<ul>
+		<li><strong>GET</strong><span class="monofont"> /api/v1/user/account </span> - Retrieve the current user's account information</li>
+		<ul>
+			<li><strong>Request Headers</strong></li>
+			<ul>
+<li><code>Authorization</code> (string, required) - The authentication token obtained from logging in</li>
+			</ul>
+			<li><strong>Response</strong></li>
+			<!-- <ul>
+				<li><code>id</code> (integer) - The unique ID of the user account</li>
+				<li><code>username</code> (string) - The username of the user account</li>
+				<li><code>email</code> (string) - The email address of the user account</li>
+			</ul> -->
+		</ul>
+	</ul>
+
+	<h3>Update User Account Information</h3>
+	<ul>
+		<li><strong>PUT</strong> <span class="monofont"> /api/v1/user/account </span> - Update the current user's account information</li>
+		<ul>
+			<li><strong>Request Headers</strong></li>
+			<ul>
+				<li><code>Authorization</code> (string, required) - The authentication token obtained from logging in</li>
+			</ul>
+			<li><strong>Request Body</strong></li>
+			<ul>
+				<li><code>username</code> (string, optional) - The new username for the user account</li>
+				<li><code>email</code> (string, optional) - The new email address for the user account</li>
+				<li><code>password</code> (string, optional) - The new password for the user account</li>
+			</ul>
+			<li><strong>Response</strong></li>
+			<!-- <ul>
+				<li><code>id</code> (integer) - The unique ID of the updated user account</li>
+				<li><code>username</code> (string) - The updated username of the user account</li>
+				<li><code>email</code> (string) - The updated email address of the user account</li>
+			</ul> -->
+		</ul>
+	</ul>
+
+	<h3>Delete User Account</h3>
+	<ul>
+		<li><strong>DELETE</strong> <span class="monofont"> /api/v1/user/account </span> - Delete the current user's account</li>
+		<ul>
+			<li><strong>Request Headers</strong></li>
+			<ul>
+				<li><code>Authorization</code> (string, required) - The authentication token obtained from logging in</li>
+			</ul>
+			<li><strong>Response</strong></li>
+			<ul>
+				<li><code>message</code> (string) - A message indicating that the user account has been deleted</li>
+			</ul>
+		</ul>
+	</ul>
+
+{% endblock content %}
