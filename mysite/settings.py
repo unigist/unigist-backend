@@ -49,6 +49,7 @@ INSTALLED_APPS = [
     # local
     'siteapps',
     'siteapps.users',
+    'siteapps.posts',
 
 ]
 
