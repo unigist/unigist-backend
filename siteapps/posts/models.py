@@ -18,7 +18,7 @@ def upload_img_name(instance, filename):
 class Post(models.Model):
     title            = models.CharField(max_length=200, blank=False, null=False)
     body             = models.TextField(blank=False)
-    author           = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
+    author           = models.ForeignKey(to="users.User", on_delete=models.CASCADE)
     slug             = models.SlugField(unique=True, null=True, blank=True)
     date_published   = models.DateTimeField(auto_now_add=True) # can be modified
     date_created     = models.DateTimeField(auto_now=True)
@@ -37,15 +37,15 @@ class Post(models.Model):
     #         self.slug = slugify(self.title)
     #     return super().save(*args, **kwargs)
     def save(self, *args, **kwargs):
-        if not self.id:
+        if not self.slug:
             self.slug = slugify(self.author.username + '-' + self.title)
         super(Post, self).save(*args, **kwargs)
 
 
 
-@receiver(post_delete, sender=Post)
-def submit_delete(sender, instance, **kwargs):
-    instance.image.delete(False)
+# @receiver(post_delete, sender=Post)
+# def submit_delete(sender, instance, **kwargs):
+#     instance.image.delete(False)
 
 # @receiver(post_save, sender=Post)
 # def post_slugify(sender, instance=None, created=False, **kwargs):
