@@ -1,3 +1,7 @@
+from rest_framework.authtoken.models import Token
+from django.db.models.signals import post_save
+from django.dispatch import receiver
+from django.conf import settings
 
 from django.db import models
 from django.contrib.auth.models import AbstractBaseUser, BaseUserManager, PermissionsMixin
@@ -26,10 +30,11 @@ class UserManager(BaseUserManager):
             password=password,
         )
 
-        user.is_admin = True
-        user.is_superuser = True
         user.is_staff = True
+        user.is_superuser = True
         user.is_active = True
+        user.is_admin = True
+
         user.save(using=self._db)
         return user
 
@@ -45,13 +50,13 @@ class User(AbstractBaseUser, PermissionsMixin):
     is_active      = models.BooleanField(default=True)
 
 
-    USERNAME_FIELD = 'email'
-    REQUIRED_FIELDS = ['username',]
+    USERNAME_FIELD = 'username'
+    REQUIRED_FIELDS = ['email',]
 
     objects = UserManager()
 
     def __str__(self):
-        return f'{self.first_name} {self.last_name}'
+        return f'{self.username}'
 
 
 # all I know for now is that these are required fields
@@ -60,3 +65,8 @@ class User(AbstractBaseUser, PermissionsMixin):
     #     return self.is_admin
     # def has_module_perms(self, app_label):
     #     return True
+
+@receiver(post_save, sender=settings.AUTH_USER_MODEL)
+def create_auth_token(sender, instance=None, created=False, **kwargs):
+    if created:
+        Token.objects.create(user=instance)
