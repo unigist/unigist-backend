@@ -8,6 +8,9 @@ django = "*"
 mysqlclient = "*"
 djangorestframework = "*"
 django-cors-headers = "*"
+python-dotenv = "*"
+psycopg2-binary = "==2.9.5"
+dj-database-url = "*"
 
 [dev-packages]
 
