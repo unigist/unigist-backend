@@ -7,6 +7,7 @@ from rest_framework.decorators import api_view, permission_classes, authenticati
 
 from rest_framework.status import (
         HTTP_400_BAD_REQUEST,
+        HTTP_404_NOT_FOUND,
     )
 from .serializers import UserSerializer
 from .models import User
@@ -28,6 +29,44 @@ def registration_view(request):
             data = serializer.errors
         return Response(data)
 
-@api_view([])
+@api_view(['GET',])
+def get_users_view(request):
+    if request.method == 'GET':
+        users = User.objects.all()
+        serializer = UserSerializer(users, many=True)
+
+        return Response(serializer.data)
+@api_view(['GET',])
 def user_detail(request, pk):
-    pass
+    if request.method == 'GET':
+        try:
+            users = User.objects.get(pk=pk)
+            serializer = UserSerializer(users)
+            return Response({
+                'success': 'user details',
+                'data':serializer.data
+            })
+        except User.DoesNotExist:
+            return Response({
+                'success': 'user not found',
+                'data':[]
+            }, HTTP_404_NOT_FOUND)
+
+
+
+@api_view(['PUT', 'POST'])
+def auth_user_detail(request, pk):
+    if request.method == 'PUT':
+        User = User.objects.get(pk=pk)
+        serializer = UserSerializer(User, data=request.data)
+
+        if serializer.is_valid():
+            serializer.save()
+            return Response({
+                'success': 'User successfully updated!',
+                'data': serializer.data,
+            })
+        return Response({
+            'failure': 'failed to update',
+            'error': serializer.errors
+        }, HTTP_400_BAD_REQUEST)
