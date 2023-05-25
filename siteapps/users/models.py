@@ -55,8 +55,8 @@ class User(AbstractBaseUser, PermissionsMixin):
 
     objects = UserManager()
 
-    def __str__(self):
-        return f'{self.username}'
+    def __str__(self) -> str:
+        return self.username
 
 
 # all I know for now is that these are required fields
