@@ -54,12 +54,17 @@ def user_detail(request, pk):
 
 
 
-@api_view(['PUT', 'POST'])
+@api_view(['PUT', 'DELETE'])
 def auth_user_detail(request, pk):
-    if request.method == 'PUT':
-        User = User.objects.get(pk=pk)
-        serializer = UserSerializer(User, data=request.data)
+    try:
+        user = User.objects.get(pk=pk)
+    except User.DoesNotExist:
+        return Response({
+            'failure': 'user is not found'
+        }, status=HTTP_404_NOT_FOUND)
 
+    if request.method == 'PUT':
+        serializer = UserSerializer(user, data=request.data)
         if serializer.is_valid():
             serializer.save()
             return Response({
@@ -70,3 +75,9 @@ def auth_user_detail(request, pk):
             'failure': 'failed to update',
             'error': serializer.errors
         }, HTTP_400_BAD_REQUEST)
+
+    if request.method == 'DELETE':
+        user.delete()
+        return Response({
+            'success': 'account successfully deleted'
+        })
