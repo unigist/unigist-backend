@@ -17,12 +17,11 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path, include
 
-from siteapps.views import index
 
 baseUrl = fr'api/v1'
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('api/v1/', include('siteapps.urls')),
-    path('', index, name='API Documentation'),
+    path('', include('siteapps.urls')),
 ]

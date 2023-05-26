@@ -1,0 +1,37 @@
+<h3>{{ep.name}}</h3>
+<ul>
+	<li>
+		<strong>{{ep.method}}</strong> : <span class="monofont">{{ep.path}}</span> {{ep.path_desc}}
+	</li>
+	<ul>
+		<li id="type">
+			<strong>{{ep.type}}</strong>
+			<ul>
+				{% for arg in ep.type_fields %}
+				<li><code>{{arg.name}}</code> {{arg.desc}}</li>
+				{% endfor %}
+			</ul>
+		</li>
+		<li id="code sample">
+			<strong>Example using <em>Js fetch api.</em></strong>
+			<ul style="list-style: none;">
+				<li>
+					<pre>
+						{{ep.example}}
+					</pre>
+				</li>
+			</ul>
+		</li>
+		<li id="response attributes">
+			<strong>{{ep.resp_type}}</strong>
+			<ul>
+				{% for attr in ep.resp_attrs %}
+					<li>
+						<code>{{attr.name}}</code> :
+						{{attr.desc}}
+					</li>
+				{% endfor %}
+			</ul>
+		</li>
+	</ul>
+</ul>

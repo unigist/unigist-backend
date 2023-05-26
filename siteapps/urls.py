@@ -14,6 +14,11 @@ from siteapps.posts.views import (
     get_post_list,
     create_post,
 )
+from siteapps.views import (
+    index,
+    post_template,
+    user_template,
+)
 
 urlpatterns = [
     # user endpoints
@@ -28,5 +33,10 @@ urlpatterns = [
     path('posts/<str:slug>/', get_post_detail, name='post detail'),
     # handling delete and Put, access by login users
     path('posts/edit/<str:slug>/', auth_post_detail, name='update delete post'),
-    path('posts/create', create_post, name='create post')
+    path('posts/create', create_post, name='create post'),
+
+    # Documentation urls
+    path('', index, name='docs home'),
+    path('users-doc', user_template, name='users doc'),
+    path('posts-doc/', post_template, name='posts doc'),
 ]

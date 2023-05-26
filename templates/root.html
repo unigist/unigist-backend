@@ -11,9 +11,15 @@
 </head>
 
 <body>
-    <header>Header</header>
+    <header>
+        <h1>Unigist</h1>
+
+        <nav>
+            <a href="{% url 'users doc' %}"> Users </a> |
+            <a href="{% url 'posts doc' %}"> Posts </a> |
+        </nav>
+    </header>
     <div class="container">
-        <h1>Blog Backend API Documentation</h1>
         {% block content %}
         {% endblock content %}
     </div>
