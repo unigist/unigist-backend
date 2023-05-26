@@ -87,7 +87,7 @@ def create_post(request):
                 }, status=HTTP_201_CREATED)
             elif ValidationError:
                 return Response({
-                'failure': 'damn niga! can not create post for another user'
+                'failure': serializer.errors,
             }, status=HTTP_401_UNAUTHORIZED)
             else:
                 return Response({
