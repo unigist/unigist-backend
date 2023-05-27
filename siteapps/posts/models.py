@@ -18,6 +18,7 @@ def upload_img_name(instance, filename):
 class Post(models.Model):
     title            = models.CharField(max_length=200, blank=False, null=False)
     body             = models.TextField(blank=False)
+    image            = models.ImageField(upload_to=upload_img_name, null=True)
     author           = models.ForeignKey(to="users.User", on_delete=models.CASCADE)
     slug             = models.SlugField(unique=True, null=True, blank=True)
     date_published   = models.DateTimeField(auto_now_add=True) # can be modified
@@ -42,37 +43,10 @@ class Post(models.Model):
         super(Post, self).save(*args, **kwargs)
 
 
-
-# @receiver(post_delete, sender=Post)
-# def submit_delete(sender, instance, **kwargs):
-#     instance.image.delete(False)
-
-# @receiver(post_save, sender=Post)
-# def post_slugify(sender, instance=None, created=False, **kwargs):
-#     if created:
-#         instance.slug = slugify('title')
-
-
-# def pre_save_post_receiver(sender, instance, *args, **kwargs):
-
-#         print("")
-#         print(instance.author.username)
-#         print(sender.author.username)
-#         print("")
-#         instance.slug = slugify(instance.author.username + '-' + instance.title)
-
-# pre_save.connect(pre_save_post_receiver, sender=Post)
-
-
-# what if I do it like this?
-# @receiver(post_save, sender=Post)
-# def post_slugify(sender, instance, **kwargs):
-#     # if not instance.slug:
-#         print("What~!!!!!!!!!!!!!!!!")
-#         print(instance.author.username)
-#         print(sender.author.username)
-#         print("")
-#         instance.slug = slugify(instance.author.username + '-' + instance.title)
+# Delete image when post is deleted
+@receiver(post_delete, sender=Post)
+def submit_delete(sender, instance, **kwargs):
+    instance.image.delete(False)
 
 # @receiver(post_save, sender=Post)
 # def post_slugify(sender, instance=None, created=False, **kwargs):
@@ -100,3 +74,8 @@ class Post(models.Model):
 #         print(sender.author.username)
 #         print("")
 #         instance.slug = slugify(instance.author.username + '-' + instance.title)
+
+# @receiver(post_save, sender=Post)
+# def post_slugify(sender, instance=None, created=False, **kwargs):
+#     if created:
+#         instance.slug = slugify('title')
