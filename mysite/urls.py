@@ -19,12 +19,22 @@ from django.urls import path, include
 from django.conf import settings
 from django.conf.urls.static import static
 
+from siteapps.views import (
+    index,
+    post_template,
+    user_template,
+)
+
+
 baseUrl = fr'api/v1'
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('api/v1/', include('siteapps.urls')),
-    path('', include('siteapps.urls')),
+    # Documentation urls
+    path('', index, name='docs home'),
+    path('users-doc', user_template, name='users doc'),
+    path('posts-doc/', post_template, name='posts doc'),
 ]
 
 
