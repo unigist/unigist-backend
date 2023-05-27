@@ -12,6 +12,7 @@ python-dotenv = "*"
 psycopg2-binary = "==2.9.5"
 dj-database-url = "*"
 pillow = "*"
+tzdata = "*"
 
 [dev-packages]
 

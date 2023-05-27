@@ -15,7 +15,7 @@ class PostSerializer(serializers.ModelSerializer):
     def validate_author(self, value):
         """The validate_author method checks validation for the author field. Here, we want to make sure that the user creating the post is the same user as in the author field."""
         print("\n")
-        # print(self.context['request'].user)
+        print(self.context['user'])
         print(value)
         print("\n")
         if self.context['user'] != value:
