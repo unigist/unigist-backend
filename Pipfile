@@ -13,6 +13,8 @@ psycopg2-binary = "==2.9.5"
 dj-database-url = "*"
 pillow = "*"
 tzdata = "*"
+whitenoise = "*"
+django-filter = "*"
 
 [dev-packages]
 

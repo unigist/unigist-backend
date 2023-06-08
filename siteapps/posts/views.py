@@ -18,17 +18,12 @@ from siteapps.posts.serializers import PostSerializer
 from .models import Post
 
 # Create your views here.
-@api_view(['GET',])
-def get_post_list(request):
-    if request.method == 'GET':
-        posts = Post.objects.all()
-        serializer = PostSerializer(posts, many=True)
-        return Response({ 'data': serializer.data}, status=HTTP_200_OK)
 
 @api_view(['GET',])
 def get_post_detail(request, slug):
+    """Get the details of a single post."""
     try:
-        post = Post.objects.get(slug=slug)
+        post = Post.articles.get(slug=slug)
         serializer = PostSerializer(post)
     except Post.DoesNotExist:
         return Response({
@@ -36,7 +31,26 @@ def get_post_detail(request, slug):
         }, status=HTTP_404_NOT_FOUND)
     return Response({
         'data': serializer.data
-    })
+    }, status=HTTP_200_OK)
+
+@api_view(['GET',])
+def get_articles_list(request):
+    """
+        Get all published post.
+        if user is authenticated retrieve all post including:
+            the published and drafted post
+    """
+    if (request.method == 'GET'):
+        if request.user.is_authenticated:
+            post = Post.articles.all()
+            serializer = PostSerializer(post, many=True)
+        else:
+            post = Post.published.all()
+            serializer = PostSerializer(post, many=True)
+
+        return Response({
+            'data': serializer.data
+        }, status=HTTP_200_OK)
 
 @api_view(['PUT', 'DELETE'])
 @permission_classes([IsAuthenticated])
@@ -68,9 +82,6 @@ def auth_post_detail(request, slug):
             return Response({
                 'success': 'post deleted successful'
             }, status=HTTP_200_OK)
-
-
-
 
 @api_view(['POST',])
 @permission_classes([IsAuthenticated,])

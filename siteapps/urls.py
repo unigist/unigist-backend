@@ -11,23 +11,23 @@ from siteapps.users.views import (
 from siteapps.posts.views import (
     auth_post_detail,
     get_post_detail,
-    get_post_list,
+    get_articles_list,
     create_post,
 )
 
 
 urlpatterns = [
     # user endpoints
-    path('users/', get_users_view, name='get users'),
-    path('users/<int:pk>/', user_detail, name='user detail'),
-    path('user/account/<int:pk>', auth_user_detail, name="auth user detail"),
-    path('auth/login/', obtain_auth_token, name='login token'),
-    path('auth/register', registration_view, name='registration'),
+    path('users/', get_users_view, name='user-list'),
+    path('users/<int:pk>/', user_detail, name='user-detail'),
+    path('user/account/<int:pk>', auth_user_detail, name="user-auth-detail"),
+    path('auth/login/', obtain_auth_token, name='user-login'),
+    path('auth/register', registration_view, name='user-registration'),
 
     # post endpoints
-    path('posts/', get_post_list, name='post list'),
-    path('posts/<str:slug>/', get_post_detail, name='post detail'),
+    path('posts/', get_articles_list, name='post-list'),
+    path('posts/<str:slug>/', get_post_detail, name='post-detail'),
     # handling delete and Put, access by login users
-    path('posts/edit/<str:slug>/', auth_post_detail, name='update delete post'),
-    path('posts/create', create_post, name='create post'),
+    path('posts/edit/<str:slug>/', auth_post_detail, name='post-update-delete'),
+    path('posts/create', create_post, name='post-create'),
 ]

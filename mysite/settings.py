@@ -30,14 +30,15 @@ load_dotenv(BASE_DIR / '.env')
 SECRET_KEY = os.getenv('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = os.getenv('DEBUG', '0').lower() in ['true', 't', '1']
+DEBUG = os.getenv('DEBUG', '0').lower() in ['True', 't', '1']
+DEBUG = True
 
-# ALLOWED_HOSTS = []
-ALLOWED_HOSTS = os.getenv('ALLOWED_HOSTS').split(' ')
+# ALLOWED_HOSTS = ['*',]
+# ALLOWED_HOSTS = ['.localhost', '127.0.0.1', '[::1]']
+# ALLOWED_HOSTS = os.getenv('ALLOWED_HOSTS').split(' ')
 
 
 # Application definition
-
 INSTALLED_APPS = [
     'django.contrib.admin',
     'django.contrib.auth',
@@ -86,8 +87,8 @@ CORS_ORIGIN_WHITELIST = (
 )
 
 
-
 ROOT_URLCONF = 'mysite.urls'
+
 
 TEMPLATES = [
     {
@@ -111,16 +112,16 @@ WSGI_APPLICATION = 'mysite.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/4.2/ref/settings/#databases
 
-# DATABASES = {
-#     'default': {
-#         'ENGINE': 'django.db.backends.sqlite3',
-#         'NAME': BASE_DIR / 'db.sqlite3',
-#     }
-# }
-# Only for deployment
 DATABASES = {
-    'default': dj_database_url.parse(os.environ.get('UG_INTERNAL_DB_URL'))
+    'default': {
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': BASE_DIR / 'db.sqlite3',
+    }
 }
+# Only for deployment
+# DATABASES = {
+#     'default': dj_database_url.parse(os.environ.get('UG_INTERNAL_DB_URL'))
+# }
 
 
 # Password validation
