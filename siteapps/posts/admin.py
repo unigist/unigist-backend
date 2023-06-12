@@ -5,11 +5,11 @@ from .models import Post
 # Register your models here.
 class PostModelAdmin(admin.ModelAdmin):
     list_display = (
-        'title',
         'slug',
+        'title',
         'author',
-        'id',
-        'date_published'
+        'public_id',
+        'published',
     )
     # prepopulated_fields = {"slug": ('author','title')}
 

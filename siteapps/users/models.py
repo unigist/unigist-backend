@@ -1,8 +1,10 @@
+import uuid
+
 from rest_framework.authtoken.models import Token
+
 from django.db.models.signals import post_save
 from django.dispatch import receiver
 from django.conf import settings
-
 from django.db import models
 from django.contrib.auth.models import AbstractBaseUser, BaseUserManager, PermissionsMixin
 
@@ -39,15 +41,18 @@ class UserManager(BaseUserManager):
         return user
 
 class User(AbstractBaseUser, PermissionsMixin):
+    public_id      = models.UUIDField(default=uuid.uuid4, db_index=True, unique=True, editable=False)
     email          = models.EmailField(verbose_name='Email Address', max_length=60, unique=True)
     first_name     = models.CharField(verbose_name='First Name', max_length=60, blank=True)
     last_name      = models.CharField(verbose_name='Last Name', max_length=60, blank=True)
     username       = models.CharField(max_length=30, unique=True)
-    created        = models.DateTimeField(auto_now=True)
     is_admin       = models.BooleanField(default=False)
     is_staff       = models.BooleanField(default=False)
     is_superuser   = models.BooleanField(default=False)
     is_active      = models.BooleanField(default=True)
+    created        = models.DateTimeField(auto_now_add=True)
+    edited         = models.BooleanField(default=False)
+    updated        = models.DateTimeField(auto_now=True)
 
 
     USERNAME_FIELD = 'username'

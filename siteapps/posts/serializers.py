@@ -10,7 +10,7 @@ class PostSerializer(serializers.ModelSerializer):
     # here creating a post, users' username will be passed in
     author = serializers.SlugRelatedField(
         queryset=User.objects.all(),
-        slug_field='id'
+        slug_field='public_id'
     )
     def validate_author(self, value):
         """The validate_author method checks validation for the author field. Here, we want to make sure that the user creating the post is the same user as in the author field."""
@@ -23,4 +23,4 @@ class PostSerializer(serializers.ModelSerializer):
         return value
     class Meta:
         model = Post
-        fields = '__all__'
+        fields = ['public_id', 'author', 'slug', 'title', 'body', 'image', 'edited', 'updated', 'created', 'published']

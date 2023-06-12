@@ -14,7 +14,7 @@ class UserModelAdmin(UserAdmin):
         'created',
     )
     search_fields = ('email', 'username')
-    readonly_fields = ('id', 'email',)
+    readonly_fields = ('public_id', 'email',)
 
     filter_horizontal = ()
     list_filter = ()

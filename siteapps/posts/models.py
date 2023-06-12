@@ -1,5 +1,5 @@
+import uuid
 from django.db import models
-
 from django.conf import settings
 from django.db.models.query import QuerySet
 from django.utils.text import slugify
@@ -25,13 +25,16 @@ class PostDraftManager(models.Manager):
 
 
 class Post(models.Model):
+    public_id        = models.UUIDField(db_index=True, editable=False, unique=True, default=uuid.uuid4)
     title            = models.CharField(max_length=200, blank=False, null=False)
     body             = models.TextField(blank=False)
     image            = models.ImageField(upload_to=upload_img_name, null=True)
     author           = models.ForeignKey(to="users.User", on_delete=models.CASCADE)
     slug             = models.SlugField(unique=True, null=True, blank=True)
-    date_published   = models.DateTimeField(auto_now_add=True) # can be modified
-    date_created     = models.DateTimeField(auto_now=True)
+    created          = models.DateTimeField(auto_now_add=True) # can't be modified
+    published        = models.DateTimeField(auto_now=True)
+    edited           = models.BooleanField(default=False)
+    updated          = models.DateTimeField(auto_now=True)
     status           = models.CharField(
         max_length=1, default='D', choices=[('P', ('Published')), ('D', ('Draft'))]
     )

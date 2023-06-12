@@ -27,10 +27,12 @@ def get_post_detail(request, slug):
         serializer = PostSerializer(post)
     except Post.DoesNotExist:
         return Response({
-            'failure': 'post is not found',
+            'success': 'Post not found',
+            'data': {},
         }, status=HTTP_404_NOT_FOUND)
     return Response({
-        'data': serializer.data
+        'success': 'Post detail',
+        'data': serializer.data,
     }, status=HTTP_200_OK)
 
 @api_view(['GET',])
@@ -59,7 +61,8 @@ def auth_post_detail(request, slug):
         post = Post.objects.get(slug=slug)
     except Post.DoesNotExist:
         return Response({
-            'failure': 'blog post does not exit'
+            'success': 'Post not Found',
+            'data': {},
         }, status=HTTP_404_NOT_FOUND)
 
     if request.method == 'PUT':
@@ -67,11 +70,11 @@ def auth_post_detail(request, slug):
         if serializer.is_valid():
             serializer.save()
             return Response({
-                'success': 'post sucesfully updated',
+                'success': 'Post updated',
                 'data': serializer.data
             })
         return Response({
-            'failure': 'post fail to update',
+            'failure': 'Fail to update',
             'errors': serializer.errors,
         }, status=HTTP_400_BAD_REQUEST)
 
@@ -80,7 +83,8 @@ def auth_post_detail(request, slug):
             serializer = PostSerializer(post, context={'user': request.user})
             post.delete()
             return Response({
-                'success': 'post deleted successful'
+                'success': 'Post deleted',
+                'data': {}
             }, status=HTTP_200_OK)
 
 @api_view(['POST',])
@@ -91,22 +95,25 @@ def create_post(request):
             serializer = PostSerializer(data=request.data, context={'user': request.user})
             if serializer.is_valid():
                 serializer.save()
-
                 return Response({
-                    'success': 'Post successfully created!',
+                    'success': 'Post created!',
                     'data': serializer.data
                 }, status=HTTP_201_CREATED)
+
             elif ValidationError:
                 return Response({
-                'failure': serializer.errors,
+                'failure': 'Validation error',
+                'error': serializer.errors,
             }, status=HTTP_401_UNAUTHORIZED)
+
             else:
                 return Response({
-                    'failure': 'fail to create post',
+                    'failure': 'Fail to create',
                     'data': serializer.errors
                 }, status=HTTP_400_BAD_REQUEST)
 
         except IntegrityError:
             return Response({
-                'failure': 'slug name already exit! Consider changing the title.'
+                'failure': 'Integrity Error',
+                'error': 'slug name already exit! Consider changing the title.'
             }, status=HTTP_409_CONFLICT)

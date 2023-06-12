@@ -1,11 +1,12 @@
 from django.urls import path
-from rest_framework.authtoken.views import obtain_auth_token
 
 from siteapps.users.views import (
         get_users_view,
         user_detail,
         auth_user_detail,
-        registration_view
+        registration_view,
+        logic_view
+
     )
 
 from siteapps.posts.views import (
@@ -19,9 +20,9 @@ from siteapps.posts.views import (
 urlpatterns = [
     # user endpoints
     path('users/', get_users_view, name='user-list'),
-    path('users/<int:pk>/', user_detail, name='user-detail'),
+    path('users/<str:public_id>/', user_detail, name='user-detail'),
     path('user/account/<int:pk>', auth_user_detail, name="user-auth-detail"),
-    path('auth/login/', obtain_auth_token, name='user-login'),
+    path('auth/login', logic_view, name='user-login'),
     path('auth/register', registration_view, name='user-registration'),
 
     # post endpoints
