@@ -55,6 +55,7 @@ INSTALLED_APPS = [
     'siteapps',
     'siteapps.users',
     'siteapps.posts',
+    'siteapps.comments',
 
 ]
 

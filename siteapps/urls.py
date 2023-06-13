@@ -16,6 +16,10 @@ from siteapps.posts.views import (
     create_post,
 )
 
+from siteapps.comments.views import (
+    comments_list,
+)
+
 
 urlpatterns = [
     # user endpoints
@@ -31,4 +35,7 @@ urlpatterns = [
     # handling delete and Put, access by login users
     path('posts/edit/<str:slug>/', auth_post_detail, name='post-update-delete'),
     path('posts/create', create_post, name='post-create'),
+
+    # comments endpoints
+    path('comments/', comments_list, name='comments-list'),
 ]

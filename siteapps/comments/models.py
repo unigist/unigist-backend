@@ -1,4 +1,5 @@
 from django.db import models
+from django.db.models.query import QuerySet
 from ..users.models import User
 from ..posts.models import Post
 
@@ -15,6 +16,8 @@ class Comment(models.Model):
     created = models.DateTimeField(auto_now_add=True)
     edited = models.BooleanField(default=False)
     updated = models.DateTimeField(auto_now=True)
+
+    comments = models.Manager()
 
 
     def __str__(self):
