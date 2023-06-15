@@ -1,5 +1,8 @@
 import uuid
 
+from django.core.exceptions import ObjectDoesNotExist
+from django.http import Http404
+
 from rest_framework.authtoken.models import Token
 
 from django.db.models.signals import post_save
@@ -10,6 +13,12 @@ from django.contrib.auth.models import AbstractBaseUser, BaseUserManager, Permis
 
 # Create your models here.
 class UserManager(BaseUserManager):
+    def get_by_public_id(self, public_id):
+        try:
+            instance = self.get(public_id=public_id)
+            return instance
+        except (ObjectDoesNotExist, ValueError, TypeError):
+            return Http404
 
     def create_user(self, email, username, password=None):
         if not email:
