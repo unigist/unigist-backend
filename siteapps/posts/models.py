@@ -4,6 +4,8 @@ from django.conf import settings
 from django.db.models.query import QuerySet
 from django.utils.text import slugify
 from django.db.models.signals import post_delete
+from django.core.exceptions import ObjectDoesNotExist
+from django.http import Http404
 from django.dispatch import receiver
 
 # Create your models here.
@@ -19,6 +21,13 @@ class PostPublishedManager(models.Manager):
     def get_queryset(self) -> QuerySet:
         return super().get_queryset().filter(status='P')
 
+class PostManager(models.Manager):
+    def get_by_slug(self, slug):
+        try:
+            instance = self.get(slug=slug)
+            return instance
+        except (ObjectDoesNotExist, ValueError, TypeError):
+            return Http404
 class PostDraftManager(models.Manager):
     def get_queryset(self) -> QuerySet:
         return super().get_queryset().filter(status='D')
@@ -39,7 +48,7 @@ class Post(models.Model):
         max_length=1, default='D', choices=[('P', ('Published')), ('D', ('Draft'))]
     )
 
-    articles  = models.Manager()
+    manager  = PostManager()
     published = PostPublishedManager()
     draft     = PostDraftManager()
 
