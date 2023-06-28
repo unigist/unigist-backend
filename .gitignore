@@ -1,5 +1,10 @@
 static_cdn/
 
+siteapps/__pycache__/
+siteapps/*/__pycache__/
+*/*/migrations/*
+mysite/__pycache__/
+
 .env
 .env.local
 .env.development.local
